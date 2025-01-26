@@ -6,18 +6,8 @@ import { NumberTicker } from './components/ui/number-ticker'
 import { DotPattern } from './components/ui/dot-pattern'
 import { cn } from './lib/utils'
 import { SparkAreaExample } from './components/table'
-
-
 function App() {
-  const [count, setCount] = useState<Number>(0)
 
-
-  useEffect(()=> {
-
-    const getPopulationTable = async() => {
-
-    }
-  })
 
   return (
     <>
@@ -42,7 +32,9 @@ function App() {
         )}
       />
 
-<SparkAreaExample></SparkAreaExample>
+
+<SparkAreaExample></SparkAreaExample> 
+
     </div>
       {/* <div className="flex flex-col items-center mt-24 text-center min-h-screen">
 

@@ -1,7 +1,8 @@
-import React from "react"
-
+import { useEffect, useState } from "react"
 import { Card } from "./ui/Card"
 import { SparkAreaChart } from "./ui/SparkChart"
+import axios from "axios"
+import { m } from "motion/react"
 
 const chartdata = [
   {
@@ -34,13 +35,34 @@ const chartdata = [
   },
 ]
 
-interface SparkAreaExampleProps {
-  data: Number[]
-  categories: "String"
-}
 
-export function SparkAreaExample({data, categories}: SparkAreaExampleProps) {
+export function SparkAreaExample() {
 
+    const [data, setData] = useState<String[]>([])
+  
+  
+    useEffect(()=> {
+  
+      const getPopulationTable = async() => {
+        const {data} =  await axios.get("http://localhost:8080/api/v1/country/population")
+  
+        
+        const transformedData = data.map((item: any) => ({
+          value: item.value,
+          year: item.year,
+          // include other properties if needed
+        }));
+        console.log(transformedData)
+        
+        setData(transformedData)
+      }
+  
+      getPopulationTable()
+    },[])
+
+    if (!data) {
+      return <div>Loading...</div>;
+    }
 
   return (
     <Card className="mx-auto flex max-w-lg items-center justify-between px-4 py-3.5">
@@ -52,8 +74,8 @@ export function SparkAreaExample({data, categories}: SparkAreaExampleProps) {
       </div>
       <SparkAreaChart
         data={data}
-        categories={[`${categories}`]}
-        index={"month"}
+        categories={["value"]}
+        index="year"
         colors={["blue"]}
         className="h-8 w-20 sm:h-10 sm:w-36"
       />
@@ -62,7 +84,7 @@ export function SparkAreaExample({data, categories}: SparkAreaExampleProps) {
           179.26
         </span>
         <span className="rounded bg-emerald-500 px-2 py-1 text-sm font-medium text-white">
-          +1.72%
+          +1.70%
         </span>
       </div>
     </Card>

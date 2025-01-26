@@ -99,60 +99,62 @@ const SparkAreaChart = React.forwardRef<HTMLDivElement, SparkAreaChartProps>(
             }}
             stackOffset={type === "percent" ? "expand" : undefined}
           >
-            <XAxis hide dataKey={index} />
-            <YAxis hide={true} domain={yAxisDomain as AxisDomain} />
 
-            {categories.map((category) => {
-              const categoryId = `${areaId}-${category.replace(/[^a-zA-Z0-9]/g, "")}`
-              return (
-                <React.Fragment key={category}>
-                  <defs>
-                    <linearGradient
-                      key={category}
-                      className={cn(
-                        getColorClassName(
-                          categoryColors.get(
-                            category,
-                          ) as AvailableChartColorsKeys,
-                          "text",
-                        ),
-                      )}
-                      id={categoryId}
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      {getFillContent(fill)}
-                    </linearGradient>
-                  </defs>
-                  <Area
-                    className={cn(
-                      getColorClassName(
-                        categoryColors.get(
-                          category,
-                        ) as AvailableChartColorsKeys,
-                        "stroke",
-                      ),
-                    )}
-                    dot={false}
-                    strokeOpacity={1}
-                    name={category}
-                    type="linear"
-                    dataKey={category}
-                    stroke=""
-                    strokeWidth={2}
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    isAnimationActive={false}
-                    connectNulls={connectNulls}
-                    stackId={stacked ? "stack" : undefined}
-                    fill={`url(#${categoryId})`}
-                  />
-                </React.Fragment>
-              )
-            })}
-          </RechartsAreaChart>
+<XAxis
+  dataKey={index}
+  type="number" // Explicitly numeric
+  domain={['dataMin', 'dataMax']} // Adjust automatically based on the data range
+  tickFormatter={(tick) => tick.toString()} // Convert numeric ticks to strings for display
+  hide={false} // You can remove this if you want to debug axis labels
+/>
+
+   <YAxis hide={true} domain={yAxisDomain as AxisDomain} />
+
+   {categories.map((category) => {
+  const sanitizedCategory = String(category); // Ensure it's treated as a string
+  const categoryId = `${areaId}-${sanitizedCategory.replace(/[^a-zA-Z0-9]/g, "")}`;
+  const categoryColor = categoryColors.get(category);
+
+  return (
+    <React.Fragment key={sanitizedCategory}>
+      <defs>
+        <linearGradient
+          id={categoryId}
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+          className={cn(
+            getColorClassName(categoryColor as AvailableChartColorsKeys, "text"),
+          )}
+        >
+          {getFillContent(fill)}
+        </linearGradient>
+      </defs>
+      <Area
+        className={cn(
+          getColorClassName(categoryColor as AvailableChartColorsKeys, "stroke"),
+        )}
+        dot={false}
+        strokeOpacity={1}
+        name={sanitizedCategory} // Use sanitized category as the name
+        type="linear"
+        dataKey={sanitizedCategory} // Ensure it matches the key in your data
+        stroke=""
+        strokeWidth={2}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        isAnimationActive={false}
+        connectNulls={connectNulls}
+        stackId={stacked ? "stack" : undefined}
+        fill={`url(#${categoryId})`}
+      />
+    </React.Fragment>
+  );
+})}
+
+
+</RechartsAreaChart>
         </ResponsiveContainer>
       </div>
     )
