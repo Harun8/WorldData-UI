@@ -5,7 +5,7 @@ import './App.css'
 import { NumberTicker } from './components/ui/number-ticker'
 import { DotPattern } from './components/ui/dot-pattern'
 import { cn } from './lib/utils'
-import { SparkAreaExample } from './components/table'
+import ChartTable from './components/ChartTable'
 function App() {
 
 
@@ -32,9 +32,7 @@ function App() {
         )}
       />
 
-
-<SparkAreaExample></SparkAreaExample> 
-
+      <ChartTable></ChartTable>
     </div>
       {/* <div className="flex flex-col items-center mt-24 text-center min-h-screen">
 
