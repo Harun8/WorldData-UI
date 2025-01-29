@@ -40,6 +40,11 @@ const ChartTable = () => {
 
   return (
     <>
+
+
+<SparkChart data={data} name={originalDataSet != undefined ? originalDataSet[0].countryName : "Null" } code={originalDataSet != undefined ? originalDataSet[0].countryCode : "Null"} ></SparkChart>
+<SparkChart data={data} name={originalDataSet != undefined ? originalDataSet[0].countryName : "Null" } code={originalDataSet != undefined ? originalDataSet[0].countryCode : "Null"} ></SparkChart>
+
     <SparkChart data={data} name={originalDataSet != undefined ? originalDataSet[0].countryName : "Null" } code={originalDataSet != undefined ? originalDataSet[0].countryCode : "Null"} ></SparkChart>
     </>
   )
